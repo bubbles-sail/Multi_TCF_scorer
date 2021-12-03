@@ -105,8 +105,6 @@ def select_mark():
   else: select_mark
 
 
-
-
 #######################################################################
 results_f = input("Enter the file name to save race results to: ")
 results_f_csv = results_f+".csv"
@@ -125,8 +123,13 @@ str_race_rating = str(rating_headers[tcf_index])
 str_fleet_ratings = str(race_ratings)
 
 #write to the file the tcf used and the column headers
-f.write("Rating band: "+str_race_rating)            
+f.write("Rating band:,"+str_race_rating)            
+num_marks = len(mark_list)
+f.write("\nMarks:")
+for i in range(num_marks):
+  f.write(","+mark_list[i])
 f.write("\nMark,Boat,TCF,Start,Fin,Elapsed,Corrected")
+
 
 
 racing = True
