@@ -1,4 +1,4 @@
-# Multi_TCF_scorer
+<!-- # Multi_TCF_scorer
 Yacht racing calculator for use with multiple TCF's as used by ORC and JCA rating systems.
 
 Utilises TCF ratings only (Time on Time)
@@ -12,6 +12,8 @@ BOAT2_NAME,BOAT2_TCF1,BOAT2_TCF2,...,...
 
 No practical limit to number of boats and number of TCF's per boat
 
+User is asked to enter file name for results, which rating band to use, to enter mark names, then select a mark, then a boat, then its time at the mark. The result from the start to the mark is saved to the results csv file.
+
 Program will save results to *.csv file with user specified name (race no etc)
 Records:
 [Rating band used]
@@ -24,3 +26,4 @@ Future work is to use results file to score boats leg by leg and analyse leg gai
 Then create a GUI and package as either:
 1, webapp with the likes of flask or
 2, windows and android app with Beeware
+ -->
