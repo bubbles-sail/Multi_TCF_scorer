@@ -18,7 +18,9 @@ User is asked to enter file name for results, which rating band to use, to enter
 
 Program will save results to *.csv file with user specified name (race no etc)
 Records:
+
 [Rating band used]
+
 [Mark name],[Boat name],[Start time],[mark time],[elapsed time],[corrected time]
 
 
@@ -26,6 +28,8 @@ Future work is to use results file to score boats leg by leg and analyse leg gai
 
 
 Then create a GUI and package as either:
+
 1, webapp with the likes of flask or
+
 2, windows and android app with Beeware
 
