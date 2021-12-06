@@ -125,10 +125,9 @@ str_fleet_ratings = str(race_ratings)
 #write to the file the tcf used and the column headers
 f.write("Rating band:,"+str_race_rating)            
 num_marks = len(mark_list)
-f.write("\nMarks:")
-f.write(mark_list[0])
-for i in range(1,num_marks):
-  f.write(", "+mark_list[i])
+f.write("\nMarks: ")
+for i in range(num_marks):
+  f.write(","+mark_list[i])
 f.write("\nMark,Boat,TCF,Start,Fin,Elapsed,Corrected")
 
 
