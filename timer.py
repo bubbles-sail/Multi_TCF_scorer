@@ -2,6 +2,7 @@ import datetime
 import csv
 
 mark_list = []
+mark_ind = []
 
 #extract the first line of the fleet.csv file to use as headers in a table [boat_name, tcf1_name, tcf2_name,...]
 def get_file_headers(fleet_file):
@@ -94,6 +95,12 @@ def get_marks():
         mark_list.append(add_new_mark)
       else: add_mark = False
 
+#create a mark index to reference mark names
+def get_mark_index():
+  for i in range(len(mark_list)):
+    mark_ind.append(i+1)
+  return mark_ind
+
 #choose the mark to score at
 def select_mark():
   print("Select mark: [mark number, not name]")
@@ -116,6 +123,8 @@ tcf_index = select_tcf_band(rating_headers)
 race_ratings = get_race_ratings(tcf_index,rating_data)
 start_tm = get_start_time()
 get_marks()
+mark_index = get_mark_index()
+print(mark_index)
 
 # print("Rating band selected:",rating_headers[tcf_index],"\n Race:",rating_headers[0],"\n",race_ratings)
 
@@ -137,6 +146,7 @@ while racing:
   score_race = input("Do you want to score a mark? ENTER for yes, 'N' to exit: ")
   if len(score_race) == 0:
     mark = select_mark()
+    mark_id = mark_list.index(mark) + 1
     result = get_corr_time(race_ratings,start_tm)
     str_tcf = str(result[1])
     str_st_tm = str(result[2])
@@ -145,6 +155,6 @@ while racing:
     str_corr_tm = str(result[5])
 
     # print("Mark:",mark,"\nBoat:",result[0],"\nRating:", result[1],"\nStart time:",result[2],"\nFinish time:",result[3],"\nElapsed time:",result[4],"\nCorrected time:",result[5])
-    f.write("\n"+mark+","+result[0]+","+str_tcf+","+str_st_tm+","+str_fin_tm+","+str_el_tm+","+str_corr_tm)
+    f.write("\n"+str(mark_id)+","+result[0]+","+str_tcf+","+str_st_tm+","+str_fin_tm+","+str_el_tm+","+str_corr_tm)
   else: racing = False
 
