@@ -33,9 +33,34 @@ for i in range(len(race_data_sht)):
 
 #need to extract list of lists that have same mark, then sort by et and ct
 
-# race_mk_el_sort = []
-# single_mk_list = []
-# temp_list = []
+race_mk_el_sort = []
+single_mk_list = []
+temp_list = []
+def get_roundings(mark,index):
+    for i in range(len(race_mk_sort)):
+        if mark == race_mk_sort[i][0]:
+            temp_list.append[race_mk_sort[i][0]]
+    sorted(temp_list, itemgetter(key = race_mk_sort(3)))
+    
+
+
+
+
+
+
+for i in marks:
+    mk_sort = get_roundings(i,3)
+    race_mk_el_sort.append(mk_sort)
+
+    # for j in range(len(race_mk_sort)):
+    #     if i == race_mk_sort[j][0]:
+    #         single_mk_list.append(race_mk_sort[j])
+    #     sorted(single_mk_list, key = itemgetter(3))
+    #     print(single_mk_list,"\n")
+    # race_mk_el_sort.append(single_mk_list)
+# print(race_mk_el_sort)
+
+
 # for i in range(len(race_mk_sort)):
 #     for j in range(len(marks)):
 #         if race_mk_sort[i][0] == marks[j]:
