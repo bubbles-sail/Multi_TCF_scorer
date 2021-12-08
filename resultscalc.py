@@ -1,7 +1,7 @@
 import csv
 from operator import itemgetter
 
-f_results = open("test.csv","r")
+f_results = open("test.csv","a")
 
 with open("test.csv","r") as input:
     reader = csv.reader(input)
@@ -25,3 +25,11 @@ print(et,"\n\n")
 ct_sort = sorted(race_data, key=itemgetter(-1))
 ct = sorted(ct_sort, key=itemgetter(0))
 print(ct)
+
+f_results.write("\n\nElapsed time rank:\n")
+for i in et:
+    f_results.write(str(i)+"\n")
+
+f_results.write("\n\nCorrected time rank:\n")
+for i in ct:
+    f_results.write(str(i)+"\n")
