@@ -62,7 +62,7 @@ def get_start_time():
 def get_fin_el_tm(start):
   fin_tm = input("Press Enter to set mark time:")
   fin_tm = datetime.datetime.now()
-  return fin_tm, (fin_tm-start)     #!!!!fin_tm - st tm not working as it should - need to investigate - mayne convert both to s then do the maths...
+  return fin_tm, (fin_tm-start) 
 
 #input st time and boat/rating dict, returns boat name, st,fin/el and corr times
 def get_corr_time(ratings, st_tm):
@@ -155,6 +155,6 @@ while racing:
     str_corr_tm = str(result[5])
 
     # print("Mark:",mark,"\nBoat:",result[0],"\nRating:", result[1],"\nStart time:",result[2],"\nFinish time:",result[3],"\nElapsed time:",result[4],"\nCorrected time:",result[5])
-    f.write("\n"+str(mark_id)+","+result[0]+","+str_tcf+","+str_st_tm+","+str_fin_tm+","+str_el_tm+","+str_corr_tm+"\n\n")
+    f.write("\n"+str(mark_id)+","+result[0]+","+str_tcf+","+str_st_tm+","+str_fin_tm+","+str_el_tm+","+str_corr_tm)
   else: racing = False
 
