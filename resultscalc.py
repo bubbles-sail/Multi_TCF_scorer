@@ -28,15 +28,14 @@ rating_band, marks, mark_id, file_headers, race_data = get_race_data()
 et_rank, ct_rank = get_sorted_results(race_data)
 
 f_results = open("Results.csv","a")
-
 f_results.write("Race results\nRating,"+rating_band[1]+"\nMk num,Mk name")
 for i in range(len(marks)):
     f_results.write("\n"+str(mark_id[i])+","+str(marks[i]))
-
 f_results.write("\n\nElapsed time rank:\n")
 for i in range(len(file_headers)):
     f_results.write(file_headers[i]+",")
 f_results.write("\n")
+
 for i in et_rank:
     for j in i:
         f_results.write(str(j)+",")
@@ -46,6 +45,7 @@ f_results.write("\n\nCorrected time rank:\n")
 for i in range(len(file_headers)):
     f_results.write(file_headers[i]+",")
 f_results.write("\n")
+
 for i in ct_rank:
     for j in i:
         f_results.write(str(j)+",")
