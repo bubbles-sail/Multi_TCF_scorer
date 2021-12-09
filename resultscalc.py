@@ -1,9 +1,9 @@
 import csv
 from operator import itemgetter
 
-f_results = open("test.csv","a")
+f_results = open("Results.csv","a")
 
-with open("test.csv","r") as input:
+with open("RACE 1.csv","r") as input:
     reader = csv.reader(input)
     rating = next(reader)
     marks = next(reader)
@@ -11,12 +11,9 @@ with open("test.csv","r") as input:
     headers = next(reader)
     race_data = [row for row in reader]
 
-#remove st, 
-# for i in race_data:
-#     del race_data[i][3:5]
 
-#sort by et per mark
-et_sort = sorted(race_data, key=itemgetter(-2))
+#sort by et per marks
+et_sort = sorted(race_data, key=itemgetter(5))
 et = sorted(et_sort, key=itemgetter(0))
 print(et,"\n\n")
 
@@ -25,13 +22,22 @@ ct_sort = sorted(race_data, key=itemgetter(-1))
 ct = sorted(ct_sort, key=itemgetter(0))
 print(ct)
 
+mark_ind = []                     #creates mark index - would normally call/pass from timer.py
+for i in range(len(marks)):
+    mark_ind.append(i+1)
 
+f_results.write("Mk num,Mk name")
+for i in range(len(marks)):
+    f_results.write("\n"+str(mark_ind[i])+","+str(marks[i]))
 
-# f_results.write("\n\nElapsed time rank:\n")
-# for i in et:
-#     f_results.write(str(i)+"\n")
+f_results.write("\n\nElapsed time rank:\n")
+for i in et:
+    for j in i:
+        f_results.write(str(j)+",")
+    f_results.write("\n")
 
-# f_results.write("\n\nCorrected time rank:\n")
-# for i in ct:
-#     f_results.write(str(i)+"\n")
-
+f_results.write("\n\nCorrected time rank:\n")
+for i in ct:
+    for j in i:
+        f_results.write(str(j)+",")
+    f_results.write("\n")
