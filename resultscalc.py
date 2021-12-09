@@ -9,10 +9,20 @@ def get_race_data():
         mark_list.remove("Marks: ")
         headers = next(reader)
         race_data = [row for row in reader]
-    mark_ind = []                     #creates mark index - would normally call/pass from timer.py
+    mark_ind = []                     #creates mark index - would normally call/pass from timer.py?
     for i in range(len(mark_list)):
         mark_ind.append(i+1)
-    return rating, mark_list, mark_ind, headers, race_data
+    # print("Select boat [enter the corresponding number, not the name]: ")
+    # is_ref_boat = True
+    # while is_ref_boat:
+    #     for i in range(len(race_data)):
+    #         print(i+1,": ", race_data[i])
+    #     ref_boat = int(input("Please enter a number from 1 to "+str(len(race_data))+": "))
+    #     ref_boat -= 1
+    # if ref_boat <= len(race_data) and ref_boat >= 0:
+    #   is_ref_boat = False
+
+    return rating, mark_list, mark_ind, headers, race_data, #ref_boat
 
 def get_sorted_results(race_d):
     et_sort = sorted(race_d, key=itemgetter(5))
@@ -24,7 +34,7 @@ def get_sorted_results(race_d):
 #####################################################################################
 #Write results to file
 
-rating_band, marks, mark_id, file_headers, race_data = get_race_data()
+rating_band, marks, mark_id, file_headers, race_data = get_race_data()    #reference_boat
 et_rank, ct_rank = get_sorted_results(race_data)
 
 f_results = open("Results.csv","a")
