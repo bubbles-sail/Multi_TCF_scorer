@@ -17,18 +17,30 @@ def get_race_data():
         mark_ind.append(i+1)
     return rating, ref_boat, mark_list, mark_ind, headers, race_data
 
-def get_sorted_results(race_d):
+def get_time_deltas():
+    temp_list = []
+    for i in mark_id:
+        for j in range(len(race_d)):
+            if i == race_d[0]:
+                temp_list.append(race_d[j])
+            #calulate each time delta to be added to race_d[]
+            #append time deltat to race_d[][] as appropriate
+        
+
+def get_sorted_results(race_d, mark_ids):
     et_sort = sorted(race_d, key=itemgetter(5))
     et = sorted(et_sort, key=itemgetter(0))
     ct_sort = sorted(race_data, key=itemgetter(6))
     ct = sorted(ct_sort, key=itemgetter(0))
     return et, ct
 
+
+
 #####################################################################################
 #Write results to file
 
 rating_band, ref_boat, marks, mark_id, file_headers, race_data = get_race_data()    #reference_boat
-et_rank, ct_rank = get_sorted_results(race_data)
+et_rank, ct_rank = get_sorted_results(race_data, mark_id)
 
 f_results = open("Results.csv","a")
 f_results.write("Race results\nRating,"+rating_band+"\nMk num,Mk name")
