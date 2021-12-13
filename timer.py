@@ -4,20 +4,15 @@ import csv
 mark_list = []
 mark_ind = []
 
-#extract the first line of the fleet.csv file to use as headers in a table [boat_name, tcf1_name, tcf2_name,...]
-def get_file_headers(fleet_file):
-    with open(fleet_file) as input:
-        reader = csv.reader(input)
-        file_headers = next(reader)
-    return file_headers
-
 #extract the ratings for each boat to a 2d list [[boat1, tcf1, tcf2, ...],[boat2, tcf1, tcf2, ...],[,,,]]
 def get_file_data(fleet_file):
     with open(fleet_file) as input:
       reader = csv.reader(input)
-      next(reader)
+      file_headers = next(reader)
+      ref_boat = next(reader)
+      ref_boat.remove("Ref_boat,")
       file_data = [row for row in reader]
-    return file_data
+    return file_headers, file_data, ref_boat
 
 #select which tcf band to use
 def select_tcf_band(hdr):
@@ -117,8 +112,8 @@ results_f = input("Enter the file name to save race results to: ")
 results_f_csv = results_f+".csv"
 f=open(results_f_csv,'a')
 
-rating_headers = get_file_headers('fleet.csv')  
-rating_data = get_file_data('fleet.csv')
+# rating_headers = get_file_headers('fleet.csv')  
+rating_headers, rating_data, ref_boat = get_file_data('fleet.csv')
 tcf_index = select_tcf_band(rating_headers)
 race_ratings = get_race_ratings(tcf_index,rating_data)
 start_tm = get_start_time()
@@ -132,7 +127,7 @@ str_race_rating = str(rating_headers[tcf_index])
 str_fleet_ratings = str(race_ratings)
 
 #write to the file the tcf used and the column headers
-f.write("Rating band:,"+str_race_rating)            
+f.write("Rating band:,"+str_race_rating+"\nReference boat:,"+ref_boat)            
 num_marks = len(mark_list)
 f.write("\nMarks: ")
 for i in range(num_marks):
