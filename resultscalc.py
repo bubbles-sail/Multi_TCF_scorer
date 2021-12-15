@@ -18,16 +18,6 @@ def get_race_data():
         mark_ind.append(i+1)
     return rating, ref_boat, mark_list, mark_ind, headers, race_data
 
-# def get_time_deltas():
-#     temp_list = []
-#     for i in mark_id:
-#         for j in range(len(race_d)):
-#             if i == race_d[0]:
-#                 temp_list.append(race_d[j])
-            #calulate each time delta to be added to race_d[]
-            #append time deltat to race_d[][] as appropriate
-        
-
 def get_sorted_results(race_d, mark_ids):
     et_sort = sorted(race_d, key=itemgetter(5))
     et = sorted(et_sort, key=itemgetter(0))
@@ -35,39 +25,51 @@ def get_sorted_results(race_d, mark_ids):
     ct = sorted(ct_sort, key=itemgetter(0))
     return et, ct
 
+def convert_data_from_string(input):
+    for j in range(len(input)):
+        #times str to datetime
+        time_string = input[j][3]
+        input[j][3] = datetime.strptime(time_string, '%Y-%m-%d %H:%M:%S')
+        time_string = input[j][4]
+        input[j][4] = datetime.strptime(time_string, '%Y-%m-%d %H:%M:%S.%f')
+        time_string = input[j][5]
+        input[j][5] = datetime.strptime(time_string, '%H:%M:%S.%f')
+        time_string = input[j][6]
+        input[j][6] = datetime.strptime(time_string, '%H:%M:%S.%f')
+        #marks str to int
+        mark_string = input[j][0]
+        input[j][0] = int(mark_string)
+        #rating str to float
+        rating_string = input[j][2]
+        input[j][2] = float(rating_string)
+    output = input
+    return output
 
+def get_ct_deltas_dict(input,marks):
+    temp_list = []
+    d_ct_rank = []
+    for i in marks:
+        for j in range(len(input)):
+            if i == int(input[j][0]):
+                temp_list.append(input[j])
+        for k in range(1,len(temp_list)):
+            temp_list[k].append(temp_list[k][6] - temp_list[k-1][6])
+        temp_list[0].append(datetime.now() - datetime.now())
+        d_ct_rank.append(temp_list)
+        temp_list=[]       
+    return d_ct_rank
 
 #####################################################################################
 #Write results to file
 
 rating_band, ref_boat, marks, mark_id, file_headers, race_data = get_race_data()    #reference_boat
-et_rank, ct_rank = get_sorted_results(race_data, mark_id)
+str_et_rank, str_ct_rank = get_sorted_results(race_data, mark_id)
+elapsed_rank = str_et_rank
 
-#convert race data to datetime format
-for j in range(len(ct_rank)):
-        time_string = ct_rank[j][3]
-        ct_rank[j][3] = datetime.strptime(time_string, '%Y-%m-%d %H:%M:%S')
-        time_string = ct_rank[j][4]
-        ct_rank[j][4] = datetime.strptime(time_string, '%Y-%m-%d %H:%M:%S.%f')
-        time_string = ct_rank[j][5]
-        ct_rank[j][5] = datetime.strptime(time_string, '%H:%M:%S.%f')
-        time_string = ct_rank[j][6]
-        ct_rank[j][6] = datetime.strptime(time_string, '%H:%M:%S.%f')
+ct_rank = convert_data_from_string(str_ct_rank)      #converts file data strings to int/float/datetime
+d_ct_rank = get_ct_deltas_dict(ct_rank,mark_id)      #adds ct delta to first boat in ct at each mark
 
-
-print(ct_rank)
-
-temp_list = []
-d_ct_rank = []
-for i in mark_id:
-    for j in range(len(ct_rank)):
-        if i == int(ct_rank[j][0]):
-            temp_list.append(ct_rank[j])
-    for k in range(1,len(temp_list)):
-        temp_list[k].append(temp_list[k][-1] - temp_list[k-1][-1])
-    d_ct_rank.append(temp_list)        
-print(d_ct_rank)
-
+#write race info to file
 f_results = open("Results.csv","a")
 f_results.write("Race results\nRating,"+rating_band+"\nMk num,Mk name")
 for i in range(len(marks)):
@@ -78,17 +80,21 @@ for i in range(len(file_headers)):
     f_results.write(file_headers[i]+",")
 f_results.write("\n")
 
-for i in et_rank:
+#write et info to file
+for i in elapsed_rank:
     for j in i:
         f_results.write(str(j)+",")
     f_results.write("\n")
 
-f_results.write("\n\nCorrected time rank:\n")
-for i in range(len(file_headers)):
-    f_results.write(file_headers[i]+",")
-f_results.write("\n")
+f_results.write("\n\nCorrected time rank:\nBoat,Elapsed,Corrected,dCorrected")
 
-for i in ct_rank:
-    for j in i:
-        f_results.write(str(j)+",")
+f_results.write("\n")
+#write ct info to file
+for i in mark_id:
+    f_results.write("Mark "+str(i)+"\n")
+    for j in d_ct_rank:
+        for k in j:
+            if k[0] == i:
+                f_results.write(k[1]+","+k[5].strftime("%H:%M:%S.%f")+","+k[6].strftime("%H:%M:%S.%f")+","+str(k[7])+"\n")
+        
     f_results.write("\n")
